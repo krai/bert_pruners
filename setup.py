@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="bert_pruners",
-    version="0.0.1",
+    version="0.0.2",
     author="xihajun",
     author_email="junfan@krai.ai",
     description="Pruning BERT models",
@@ -17,6 +17,7 @@ setup(
     install_requires=[
         'torch',
         'transformers',
+        'onnx'
     ],
     entry_points={
         'console_scripts': [
