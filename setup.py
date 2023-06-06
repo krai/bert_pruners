@@ -1,22 +1,26 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="postpruner",
-    version="2.1",
+    name="bert_pruners",
+    version="0.0.1",
+    author="xihajun",
+    author_email="junfan@krai.ai",
+    description="Pruning BERT models",
+    url="https://github.com/xihajun/bert_pruners",
     packages=find_packages(),
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+    python_requires='>=3.6',
+    install_requires=[
+        'torch',
+        'transformers',
+    ],
     entry_points={
-        "console_scripts": [
-            "postpruner = postpruner.__main__:main",
+        'console_scripts': [
+            'bert_prune=bert_pruners.main:main',
         ],
     },
-    include_package_data=True,
-    install_requires=[
-        "torch",
-        "transformers",
-        "numpy",
-        "scipy",
-        "cupy-cuda12x",
-        "tqdm",
-        "datasets"
-    ]
 )
