@@ -1,10 +1,10 @@
-from transformers import BertModel
+from transformers import AutoModelForQuestionAnswering
 from torch.nn.utils import prune
 import torch
 
 class BertPruner:
     def __init__(self, model_name: str, saved_dir: str, sparsity: float):
-        self.model = BertModel.from_pretrained(model_name)
+        self.model = AutoModelForQuestionAnswering.from_pretrained(model_name)
         self.saved_dir = saved_dir
         self.sparsity = sparsity
     def prune_and_save(self):
