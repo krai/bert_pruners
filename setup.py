@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="bert_pruners",
-    version="0.0.2",
+    version="0.0.3",
     author="xihajun",
     author_email="junfan@krai.ai",
     description="Pruning BERT models",
