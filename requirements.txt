@@ -3,3 +3,5 @@ torch
 datasets
 transformers
 onnx
+nn_pruning
+postpruner

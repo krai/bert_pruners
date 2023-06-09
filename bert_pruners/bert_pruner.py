@@ -1,19 +1,29 @@
 from transformers import AutoModelForQuestionAnswering
 from torch.nn.utils import prune
 import torch
+from factory import MagnitudeModelFactory, PostPrunedModelFactory, BlockPrunedModelFactory
 
 class BertPruner:
-    def __init__(self, model_name: str, saved_dir: str, sparsity: float):
-        self.model = AutoModelForQuestionAnswering.from_pretrained(model_name)
+    def __init__(self, model_name: str, saved_dir: str, method: str, value: float):
+        self.model_name = model_name
         self.saved_dir = saved_dir
-        self.sparsity = sparsity
-    def prune_and_save(self):
-        for name, module in self.model.named_modules():
-            if isinstance(module, torch.nn.Linear):
-                # replace l1_unstructured pruning with l2structured for magnitude pruning
-                # prune.l1_unstructured(module, name='weight', amount=self.sparsity)
-                prune.ln_structured(module, name='weight', amount=self.sparsity, n=2, dim=0)
+        self.method = method
+        self.value = value
+        self.model = self.get_model()
 
+    def get_model(self):
+        if self.method == "magnitude":
+            factory = MagnitudeModelFactory(self.model_name, self.value)
+        elif self.method == "post":
+            factory = PostPrunedModelFactory(self.model_name, self.value)
+        elif self.method == "block":
+            factory = BlockPrunedModelFactory(self.model_name, self.value)
+        else:
+            raise ValueError(f"Unknown pruning method: {self.method}")
+
+        return factory.create_model()
+
+    def prune_and_save(self):
         # it fixed using previous code (2 potential changes: eval model/input_id)
         input_shape = (1, 512)
         input_ids = torch.zeros(input_shape, dtype=torch.long, device=self.model.device)
